@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+service TransportService {
+  rpc GetBestItinerary (ItineraryRequest) returns (ItineraryResponse);
+  rpc PredictTraffic (TrafficRequest) returns (TrafficResponse);
+  rpc ListTransportsAvailable (TransportRequest) returns (TransportList);
+}
+
+message ItineraryRequest {
+  string origin = 1;
+  string destination = 2;
+}
+
+message ItineraryResponse {
+  string route = 1;
+  string transport_type = 2;
+  float estimated_time = 3;
+}
+
+message TrafficRequest {
+  string origin = 1;
+  string destination = 2;
+  string datetime = 3;
+}
+
+message TrafficResponse {
+  string level = 1;
+}
+
+message TransportRequest {
+  string zone = 1;
+}
+
+message TransportList {
+  repeated string transports = 1;
+}
