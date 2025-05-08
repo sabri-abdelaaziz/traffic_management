@@ -2,198 +2,232 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Simulation de Trafic - Casablanca</title>
+  <title>Simulation Trafic - Casablanca</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-  <!-- Google Fonts & Styling -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap" rel="stylesheet">
-
   <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      background-color: #f4f6f8;
-      color: #333;
-    }
-
-    header {
-      background-color: #005792;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    #map {
-      height: 500px;
-      width: 100%;
-    }
-
-    .container {
-      padding: 20px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    button {
-      background-color: #0078d7;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      margin-bottom: 20px;
-    }
-
-    button:hover {
-      background-color: #005fa3;
-    }
-
-    #result {
-      font-weight: bold;
-      margin-top: 10px;
-    }
-
-    form.route-form {
-      margin-top: 40px;
+    body { margin: 0; font-family: sans-serif; }
+    #map { height: 100vh; width: 100vw; }
+    .control-panel {
+      position: absolute;
+      top: 10px;
+      right: 10px;
       background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+      z-index: 1000;
     }
-
-    form select {
-      width: 45%;
+    .control-panel button {
+      display: block;
+      width: 230px;
+      margin: 5px 0;
       padding: 10px;
-      margin: 10px 2.5%;
-      font-size: 16px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      font-size: 14px;
+      cursor: pointer;
     }
-
-    form .submit-section {
-      text-align: center;
+    .top-left-panel {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: white;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+      z-index: 1000;
+      width: 250px;
+    }
+    .top-left-panel select,
+    .top-left-panel button {
+      width: 100%;
+      margin-top: 5px;
+      padding: 6px;
+      font-size: 14px;
     }
   </style>
 </head>
-
 <body>
 
-  <header>
-    <h1>Simulation du Trafic Urbain - Casablanca</h1>
-    <p>Optimisation des trajets et visualisation des zones clés</p>
-  </header>
+<div id="map"></div>
+<div class="control-panel">
+  <button onclick="startMassSimulation()">🚦 Lancer simulation trafic</button>
+  <button onclick="simulateZoneTraffic()">🌐 Simuler niveau de trafic par quartier</button>
+</div>
+<div class="top-left-panel">
+  <h4>🔍 Itinéraire optimal</h4>
+  <select id="startZone">
+    <option value="">Départ</option>
+  </select>
+  <select id="endZone">
+    <option value="">Arrivée</option>
+  </select>
+  <button onclick="predictItinerary()">Prévoir itinéraire</button>
+  <div id="predictionResult" style="margin-top: 8px;"></div>
+</div>
 
-  <div id="map"></div>
+<script>
+  const quartiers = {
+    "Stade Mohammed V": [33.5888, -7.6306],
+    "Gare Casa-Voyageurs": [33.6034, -7.6142],
+    "Gare Casa-Port": [33.6056, -7.6131],
+    "Maarif": [33.5883, -7.6246],
+    "Ain Sebaa": [33.6167, -7.5167],
+    "Hay Hassani": [33.5667, -7.6667],
+    "Derb Ghallef": [33.5800, -7.6250],
+    "Oasis": [33.5668, -7.6306],
+    "Sidi Maarouf": [33.5390, -7.6293],
+    "Quartier des Hôpitaux": [33.5770, -7.6186],
+    "Bourgogne": [33.5951, -7.6460],
+    "Anfa": [33.5892, -7.6593],
+    "Palmier": [33.5791, -7.6248],
+    "Mers Sultan": [33.5808, -7.6003],
+    "Roches Noires": [33.6040, -7.5810],
+    "Hay Mohammadi": [33.6045, -7.5584],
+    "La Gironde": [33.5833, -7.6056],
+    "Les Hôpitaux": [33.5725, -7.6180],
+    "Bd Zerktouni": [33.5885, -7.6185],
+    "Gauthier": [33.5895, -7.6328],
+    "Corniche Aïn Diab": [33.5800, -7.6840],
+    "Morocco Mall": [33.5595, -7.6911],
+    "Technopark": [33.5552, -7.6523],
+    "Casa Nearshore": [33.5235, -7.6420],
+    "Hay Lalla Meriem": [33.5511, -7.6233],
+    "Hay Nahda": [33.5633, -7.5733],
+    "Hay El Fida": [33.5867, -7.5870],
+    "Derb Sultan": [33.5720, -7.5933],
+    "Aïn Chock": [33.5450, -7.6020],
+    "Sbata": [33.5620, -7.5670],
+    "Hay Errahma": [33.5010, -7.6550],
+    "Tachfine Center": [33.5835, -7.5837],
+    "Bab Marrakech (ancienne médina)": [33.6012, -7.6125],
+    "Bd Moulay Slimane": [33.6073, -7.5995],
+    "Twin Center": [33.5829, -7.6336],
+    "Université Hassan II": [33.5482, -7.6551],
+  };
 
-  <div class="container">
-    <button onclick="simulateTraffic()">Simuler le Trafic</button>
-    <div id="result"></div>
+  const types = ["car", "bus", "tram", "taxi"];
 
-    <form class="route-form" onsubmit="event.preventDefault(); submitRoute();">
-      <h3>🔄 Rechercher un itinéraire optimal</h3>
+  const icons = {
+    car: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/744/744465.png', iconSize: [28, 28] }),
+    bus: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/422/422911.png', iconSize: [28, 28] }),
+    taxi: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/741/741446.png', iconSize: [28, 28] }),
+    tram: L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/2390/2390300.png',
+      iconSize: [28, 28]
+    }),
+  };
 
-      <select id="start">
-        <option value="">Départ...</option>
-        <option value="Maarif">Maarif</option>
-        <option value="Ain Sebaa">Ain Sebaa</option>
-        <option value="Hay Hassani">Hay Hassani</option>
-        <option value="Derb Ghallef">Derb Ghallef</option>
-        <option value="Oasis">Oasis</option>
-        <option value="Sidi Maarouf">Sidi Maarouf</option>
-      </select>
+  const map = L.map('map').setView([33.5731, -7.5898], 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-      <select id="end">
-        <option value="">Arrivée...</option>
-        <option value="Maarif">Maarif</option>
-        <option value="Ain Sebaa">Ain Sebaa</option>
-        <option value="Hay Hassani">Hay Hassani</option>
-        <option value="Derb Ghallef">Derb Ghallef</option>
-        <option value="Oasis">Oasis</option>
-        <option value="Sidi Maarouf">Sidi Maarouf</option>
-      </select>
+  for (const name in quartiers) {
+    const [lat, lon] = quartiers[name];
+    L.marker([lat, lon]).addTo(map).bindPopup(name);
+  }
 
-      <div class="submit-section">
-        <button type="submit">Calculer Itinéraire</button>
-      </div>
+  function getRandomZone(exclude = null) {
+    const keys = Object.keys(quartiers).filter(k => k !== exclude);
+    const random = keys[Math.floor(Math.random() * keys.length)];
+    return { name: random, coords: quartiers[random] };
+  }
 
-      <div id="route-result" style="margin-top: 20px;"></div>
-    </form>
-  </div>
+  function animateAgent(type, from, to, duration = 5000) {
+    const marker = L.marker(from.coords, { icon: icons[type] }).addTo(map);
+    marker.bindPopup(`${type.toUpperCase()}<br>${from.name} → ${to.name}`);
+    const steps = 180;
+    let step = 0;
 
-  <script>
-    const quartiers = {
-      "Maarif": [33.5883, -7.6246],
-      "Ain Sebaa": [33.6167, -7.5167],
-      "Hay Hassani": [33.5667, -7.6667],
-      "Derb Ghallef": [33.5800, -7.6250],
-      "Oasis": [33.5668, -7.6306],
-      "Sidi Maarouf": [33.5390, -7.6293]
-    };
+    const latStep = (to.coords[0] - from.coords[0]) / steps;
+    const lngStep = (to.coords[1] - from.coords[1]) / steps;
 
-    var map = L.map('map').setView([33.5731, -7.5898], 12);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-    for (const name in quartiers) {
-      const [lat, lon] = quartiers[name];
-      L.marker([lat, lon]).addTo(map).bindPopup(name);
-    }
-
-    function simulateTraffic() {
-  fetch("/api/simulate-traffic-zones/")
-    .then(response => response.json())
-    .then(data => {
-      const trafficData = data.traffic;
-
-      // Supprimer les anciens cercles si existants
-      if (window.trafficCircles) {
-        window.trafficCircles.forEach(c => map.removeLayer(c));
+    const interval = setInterval(() => {
+      step++;
+      const newLat = from.coords[0] + latStep * step;
+      const newLng = from.coords[1] + lngStep * step;
+      marker.setLatLng([newLat, newLng]);
+      if (step >= steps) {
+        clearInterval(interval);
+        map.removeLayer(marker);
       }
-      window.trafficCircles = [];
+    }, duration / steps);
+  }
 
-      trafficData.forEach(zone => {
-        let color;
-        if (zone.level === "High") color = "red";
-        else if (zone.level === "Moderate") color = "orange";
-        else color = "green";
+  function startMassSimulation() {
+    setInterval(() => {
+      for (let i = 0; i < 55; i++) {
+        const type = types[Math.floor(Math.random() * types.length)];
+        const from = getRandomZone();
+        const to = getRandomZone(from.name);
+        const duration = type === 'bus' ? 10000 : type === 'tram' ? 8000 : type === 'car' ? 7000 : 6000;
+        animateAgent(type, from, to, duration);
+      }
+    }, 500);
+  }
 
-        const circle = L.circle([zone.lat, zone.lon], {
-          color,
-          fillColor: color,
-          fillOpacity: 0.5,
-          radius: 500
-        })
-        .addTo(map)
-        .bindPopup(`<b>${zone.zone}</b><br>Trafic : ${zone.level}`);
+  // TRAFIC ZONAL : cercles colorés
+  let trafficCircles = [];
 
-        window.trafficCircles.push(circle);
-      });
+  function simulateZoneTraffic() {
+    // supprimer anciens cercles
+    trafficCircles.forEach(c => map.removeLayer(c));
+    trafficCircles = [];
+
+    for (const zone in quartiers) {
+      const [lat, lon] = quartiers[zone];
+      const level = ["Low", "Moderate", "High"][Math.floor(Math.random() * 3)];
+      let color = level === "High" ? "red" : level === "Moderate" ? "orange" : "green";
+
+      const circle = L.circle([lat, lon], {
+        color,
+        fillColor: color,
+        fillOpacity: 0.3,
+        radius: 600
+      }).addTo(map).bindPopup(`${zone}<br>Trafic : ${level}`);
+      trafficCircles.push(circle);
+    }
+  }
+
+  // Remplir les dropdowns au démarrage
+  window.onload = () => {
+    const startSelect = document.getElementById("startZone");
+    const endSelect = document.getElementById("endZone");
+    Object.keys(quartiers).forEach(name => {
+      const opt1 = document.createElement("option");
+      opt1.value = name;
+      opt1.text = name;
+      const opt2 = opt1.cloneNode(true);
+      startSelect.appendChild(opt1);
+      endSelect.appendChild(opt2);
     });
-}
+  };
 
-    function submitRoute() {
-      const start = document.getElementById("start").value;
-      const end = document.getElementById("end").value;
+  function predictItinerary() {
+    const start = document.getElementById("startZone").value;
+    const end = document.getElementById("endZone").value;
+    const resultBox = document.getElementById("predictionResult");
 
-      if (!start || !end || start === end) {
-        alert("Veuillez choisir deux quartiers différents.");
-        return;
-      }
-
-      fetch(`/api/best-itinerary/?origin=${start}&destination=${end}`)
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById("route-result").innerHTML = `
-            <p><b>Itinéraire proposé</b> : ${data.route}</p>
-            <p><b>Transport</b> : ${data.transport_type}</p>
-            <p><b>Temps estimé</b> : ${data.estimated_time} minutes</p>
-          `;
-        });
+    if (!start || !end || start === end) {
+      resultBox.innerHTML = `<span style="color:red;">Sélection invalide.</span>`;
+      return;
     }
-  </script>
+
+    // Simulation simple
+    const transports = ["Bus", "Taxi", "Tram"];
+    const chosen = transports[Math.floor(Math.random() * transports.length)];
+    const time = (Math.random() * (20 - 7) + 7).toFixed(1); // 7–20 minutes
+
+    resultBox.innerHTML = `
+      <b>Départ:</b> ${start}<br>
+      <b>Arrivée:</b> ${end}<br>
+      <b>Transport:</b> ${chosen}<br>
+      <b>Temps estimé:</b> ${time} min
+    `;
+  }
+</script>
+
 </body>
 </html>
