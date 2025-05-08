@@ -1,5 +1,7 @@
 """
 python -m grpc_tools.protoc -I grpc_services --python_out=grpc_services --grpc_python_out=grpc_services grpc_services/transport.proto
+python -m grpc_tools.protoc -I=grpc_services/proto --python_out=grpc_services/server --grpc_python_out=grpc_services/server grpc_services/proto/transport.proto
+
 """
 
 from pathlib import Path
