@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simulation de Trafic - Casablanca</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Google Fonts & Styling -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background-color: #f4f6f8;
+      color: #333;
+    }
+
+    header {
+      background-color: #005792;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #map {
+      height: 500px;
+      width: 100%;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    button {
+      background-color: #0078d7;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    #result {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    form.route-form {
+      margin-top: 40px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    form select {
+      width: 45%;
+      padding: 10px;
+      margin: 10px 2.5%;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    form .submit-section {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Simulation du Trafic Urbain - Casablanca</h1>
+    <p>Optimisation des trajets et visualisation des zones clés</p>
+  </header>
+
+  <div id="map"></div>
+
+  <div class="container">
+    <button onclick="simulateTraffic()">Simuler le Trafic</button>
+    <div id="result"></div>
+
+    <form class="route-form" onsubmit="event.preventDefault(); submitRoute();">
+      <h3>🔄 Rechercher un itinéraire optimal</h3>
+
+      <select id="start">
+        <option value="">Départ...</option>
+        <option value="Maarif">Maarif</option>
+        <option value="Ain Sebaa">Ain Sebaa</option>
+        <option value="Hay Hassani">Hay Hassani</option>
+        <option value="Derb Ghallef">Derb Ghallef</option>
+        <option value="Oasis">Oasis</option>
+        <option value="Sidi Maarouf">Sidi Maarouf</option>
+      </select>
+
+      <select id="end">
+        <option value="">Arrivée...</option>
+        <option value="Maarif">Maarif</option>
+        <option value="Ain Sebaa">Ain Sebaa</option>
+        <option value="Hay Hassani">Hay Hassani</option>
+        <option value="Derb Ghallef">Derb Ghallef</option>
+        <option value="Oasis">Oasis</option>
+        <option value="Sidi Maarouf">Sidi Maarouf</option>
+      </select>
+
+      <div class="submit-section">
+        <button type="submit">Calculer Itinéraire</button>
+      </div>
+
+      <div id="route-result" style="margin-top: 20px;"></div>
+    </form>
+  </div>
+
+  <script>
+    const quartiers = {
+      "Maarif": [33.5883, -7.6246],
+      "Ain Sebaa": [33.6167, -7.5167],
+      "Hay Hassani": [33.5667, -7.6667],
+      "Derb Ghallef": [33.5800, -7.6250],
+      "Oasis": [33.5668, -7.6306],
+      "Sidi Maarouf": [33.5390, -7.6293]
+    };
+
+    var map = L.map('map').setView([33.5731, -7.5898], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    for (const name in quartiers) {
+      const [lat, lon] = quartiers[name];
+      L.marker([lat, lon]).addTo(map).bindPopup(name);
+    }
+
+    function simulateTraffic() {
+  fetch("/api/simulate-traffic-zones/")
+    .then(response => response.json())
+    .then(data => {
+      const trafficData = data.traffic;
+
+      // Supprimer les anciens cercles si existants
+      if (window.trafficCircles) {
+        window.trafficCircles.forEach(c => map.removeLayer(c));
+      }
+      window.trafficCircles = [];
+
+      trafficData.forEach(zone => {
+        let color;
+        if (zone.level === "High") color = "red";
+        else if (zone.level === "Moderate") color = "orange";
+        else color = "green";
+
+        const circle = L.circle([zone.lat, zone.lon], {
+          color,
+          fillColor: color,
+          fillOpacity: 0.5,
+          radius: 500
+        })
+        .addTo(map)
+        .bindPopup(`<b>${zone.zone}</b><br>Trafic : ${zone.level}`);
+
+        window.trafficCircles.push(circle);
+      });
+    });
+}
+
+    function submitRoute() {
+      const start = document.getElementById("start").value;
+      const end = document.getElementById("end").value;
+
+      if (!start || !end || start === end) {
+        alert("Veuillez choisir deux quartiers différents.");
+        return;
+      }
+
+      fetch(`/api/best-itinerary/?origin=${start}&destination=${end}`)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("route-result").innerHTML = `
+            <p><b>Itinéraire proposé</b> : ${data.route}</p>
+            <p><b>Transport</b> : ${data.transport_type}</p>
+            <p><b>Temps estimé</b> : ${data.estimated_time} minutes</p>
+          `;
+        });
+    }
+  </script>
+</body>
+</html>
