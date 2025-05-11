@@ -1505,12 +1505,9 @@ Citizens in this model use both utility-based cognition and goal-based cognition
 
 - "Traffic Grid": a model of traffic moving in a city grid.
 
-<<<<<<< HEAD
-=======
 ## CREDITS AND REFERENCES
 
 Github: [https://github.com/Luminoid/urban-transportation-system](https://github.com/Luminoid/urban-transportation-system)
->>>>>>> 97ad9c47b67ad4f9c0b4e52cfa244602bf0114a7
 @#$#@#$#@
 default
 true
