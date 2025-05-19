@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package grpc_services;
+
+// Message de demande
+message ItineraryRequest {
+  string start_location = 1;
+  string end_location = 2;
+}
+
+// Message de réponse
+message ItineraryResponse {
+  repeated string steps = 1;
+}
+
+// Service gRPC
+service ItineraryService {
+  rpc GetItinerary(ItineraryRequest) returns (ItineraryResponse);
+}

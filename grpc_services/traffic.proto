@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package grpc_services;
+
+// Message de demande
+message TrafficRequest {
+  string location = 1;
+}
+
+// Message de réponse
+message TrafficResponse {
+  string status = 1;
+  int32 congestion_level = 2;
+}
+
+// Service gRPC
+service TrafficService {
+  rpc GetTrafficStatus(TrafficRequest) returns (TrafficResponse);
+}
