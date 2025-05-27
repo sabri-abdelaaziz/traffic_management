@@ -1,4 +1,6 @@
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import TrafficEventViewSet
 
 from transport_api import views
 urlpatterns = [
@@ -12,3 +14,9 @@ urlpatterns = [
     path('list-transports/', views.list_transports_view),
 
 ]
+
+
+router = DefaultRouter()
+router.register(r'events', TrafficEventViewSet)
+
+urlpatterns = router.urls

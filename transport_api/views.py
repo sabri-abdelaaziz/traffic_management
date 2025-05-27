@@ -101,4 +101,16 @@ def weighted_traffic():
         return random.choices(["High", "Moderate", "Low"], weights=[5, 3, 2])[0]
     else:
         return random.choices(["Low", "Moderate", "High"], weights=[5, 3, 2])[0]
-    
+
+
+
+
+
+
+from rest_framework import viewsets
+from .models import TrafficEvent
+from .serializers import TrafficEventSerializer
+
+class TrafficEventViewSet(viewsets.ModelViewSet):
+    queryset = TrafficEvent.objects.all()
+    serializer_class = TrafficEventSerializer
