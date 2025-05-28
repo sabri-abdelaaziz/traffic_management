@@ -202,7 +202,10 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 4px;
+<<<<<<< HEAD
             position: relative;
+=======
+>>>>>>> 74fb26b (Modification de l'interface et design interactif)
         }
 
         #map { 
@@ -303,6 +306,7 @@
             text-align: center;
         }
 
+<<<<<<< HEAD
         .cost-breakdown {
             margin-top: 1.5rem;
             background: rgba(45, 55, 72, 0.3);
@@ -362,6 +366,8 @@
             margin-top: 0.5rem;
         }
 
+=======
+>>>>>>> 74fb26b (Modification de l'interface et design interactif)
         .transport-icon {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
@@ -424,6 +430,7 @@
             left: 0;
             right: 0;
             bottom: 0;
+<<<<<<< HEAD
             background: rgba(45, 55, 72, 0.9);
             backdrop-filter: blur(8px);
             z-index: 1000;
@@ -431,6 +438,12 @@
             align-items: center;
             flex-direction: column;
             gap: 1rem;
+=======
+            background: rgba(255,255,255,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+>>>>>>> 74fb26b (Modification de l'interface et design interactif)
         }
 
         .loading.active {
@@ -438,6 +451,7 @@
         }
 
         .spinner {
+<<<<<<< HEAD
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -514,6 +528,19 @@
             50% {
                 opacity: 0.5;
             }
+=======
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3182ce;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+>>>>>>> 74fb26b (Modification de l'interface et design interactif)
         }
 
         @keyframes fadeIn {
@@ -521,6 +548,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+<<<<<<< HEAD
         .search-container {
             position: absolute;
             top: 10px;
@@ -630,6 +658,8 @@
             background: rgba(255, 255, 255, 0.4);
         }
 
+=======
+>>>>>>> 74fb26b (Modification de l'interface et design interactif)
         @media (max-width: 768px) {
             header {
                 padding: 2rem 1rem;
@@ -667,6 +697,7 @@
                 width: 100%;
                 justify-content: center;
             }
+<<<<<<< HEAD
 
             .search-container {
                 flex-direction: column;
@@ -922,13 +953,18 @@
         @keyframes waveRight {
             0%, 100% { transform: rotate(5deg) translateX(-2px); }
             50% { transform: rotate(-5deg) translateX(2px); }
+=======
+>>>>>>> 74fb26b (Modification de l'interface et design interactif)
         }
     </style>
 </head>
 <body>
     <div class="loading">
         <div class="spinner"></div>
+<<<<<<< HEAD
         <div class="loading-text">Calcul de l'itinéraire en cours...</div>
+=======
+>>>>>>> 74fb26b (Modification de l'interface et design interactif)
     </div>
 
     <header>
@@ -959,6 +995,7 @@
 
     <div class="container">
         <div class="map-container">
+<<<<<<< HEAD
             <div class="search-container">
                 <div class="search-box">
                     <label class="search-label">Point de départ</label>
@@ -977,6 +1014,8 @@
                     <div class="search-results" id="end-results"></div>
                 </div>
             </div>
+=======
+>>>>>>> 74fb26b (Modification de l'interface et design interactif)
             <div id="map"></div>
         </div>
 
@@ -1005,6 +1044,7 @@
                     <span class="info-value" id="distance">--</span>
                 </div>
             </div>
+<<<<<<< HEAD
             <div class="cost-breakdown">
                 <div class="cost-title">Estimation des coûts</div>
                 <div class="cost-grid">
@@ -1152,6 +1192,8 @@
                     </div>
                 </div>
             </div>
+=======
+>>>>>>> 74fb26b (Modification de l'interface et design interactif)
         </div>
     </div>
 
@@ -1167,6 +1209,28 @@
         var routeLayer = null;
         const loadingElement = document.querySelector('.loading');
         const infoElement = document.getElementById('info');
+<<<<<<< HEAD
+=======
+
+        function showLoading() {
+            loadingElement.classList.add('active');
+        }
+
+        function hideLoading() {
+            loadingElement.classList.remove('active');
+        }
+
+        function clearMap() {
+            markers.forEach(m => map.removeLayer(m));
+            markers = [];
+            if (routeLayer) {
+                map.removeLayer(routeLayer);
+                routeLayer = null;
+            }
+            infoElement.classList.remove('active');
+            document.getElementById('sendBtn').disabled = true;
+        }
+>>>>>>> 74fb26b (Modification de l'interface et design interactif)
 
         // Cost calculation constants (in MAD - Moroccan Dirham)
         const COSTS = {
@@ -1330,8 +1394,11 @@
         function onMapClick(e) {
             if (markers.length >= 2) {
                 clearMap();
+<<<<<<< HEAD
                 document.getElementById('start-search').value = '';
                 document.getElementById('end-search').value = '';
+=======
+>>>>>>> 74fb26b (Modification de l'interface et design interactif)
             }
             
             const markerIcon = L.divIcon({
@@ -1341,7 +1408,11 @@
                 iconAnchor: [12, 24]
             });
 
+<<<<<<< HEAD
             const marker = L.marker(e.latlng, { icon: markerIcon }).addTo(map);
+=======
+            var marker = L.marker(e.latlng, { icon: markerIcon }).addTo(map);
+>>>>>>> 74fb26b (Modification de l'interface et design interactif)
             markers.push(marker);
 
             // Update search input with coordinates
@@ -1413,6 +1484,7 @@
                 // Update transport mode with icon
                 const transportIcon = document.querySelector('.transport-icon i');
                 const iconClass = getTransportIcon(data.transport_mode);
+<<<<<<< HEAD
                 console.log('Icon class selected:', iconClass);
                 
                 transportIcon.className = '';
@@ -1420,11 +1492,24 @@
                 
                 const iconContainer = document.querySelector('.transport-icon');
                 iconContainer.classList.remove('active');
+=======
+                console.log('Icon class selected:', iconClass); // Debug log
+                
+                // Remove all previous fa classes and add new ones
+                transportIcon.className = '';
+                transportIcon.classList.add('fas', iconClass);
+                
+                // Reset animation
+                const iconContainer = document.querySelector('.transport-icon');
+                iconContainer.classList.remove('active');
+                // Force reflow
+>>>>>>> 74fb26b (Modification de l'interface et design interactif)
                 void iconContainer.offsetWidth;
                 iconContainer.classList.add('active');
 
                 // Update text display
                 document.getElementById('transport-mode').textContent = data.transport_mode;
+<<<<<<< HEAD
                 
                 // Update distance and calculate costs
                 const distanceKm = data.distance || 0;
@@ -1434,6 +1519,9 @@
                 const costs = calculateCosts(distanceKm);
                 updateCostDisplay(costs);
                 
+=======
+                document.getElementById('distance').textContent = data.distance ? `${data.distance.toFixed(2)} km` : 'N/A';
+>>>>>>> 74fb26b (Modification de l'interface et design interactif)
                 infoElement.classList.add('active');
             })
             .catch(err => {
