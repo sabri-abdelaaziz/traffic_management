@@ -2,14 +2,19 @@ syntax = "proto3";
 
 package transport;
 
-// ✅ Add this import for Empty
 import "google/protobuf/empty.proto";
 
-// Your service
+message Vehicle {
+  string id = 1;
+  double lat = 2;
+  double lng = 3;
+}
+
 service TransportService {
   rpc GetRoute (RouteRequest) returns (RouteResponse);
-  rpc StreamVehicles (google.protobuf.Empty) returns (stream VehiclePosition);
+  rpc StreamVehicles (google.protobuf.Empty) returns (stream Vehicle);
 }
+
 
 // Messages
 message RouteRequest {

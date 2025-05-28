@@ -1,12 +1,11 @@
 from pyflink.datastream import StreamExecutionEnvironment
 from pyflink.common.typeinfo import Types
-from google.protobuf import empty_pb2
 import grpc
-import time
-
-# Adjust path to import transport_pb2 and transport_pb2_grpc
+from google.protobuf import empty_pb2
 import sys
 import os
+
+# Adjust sys.path to import generated gRPC code
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'grpc_server')))
 
 import transport_pb2
@@ -14,15 +13,17 @@ import transport_pb2_grpc
 
 
 def fetch_vehicle_positions(limit=10):
-    """Connects to gRPC server and yields a limited number of vehicle positions."""
+    """Connects to gRPC server and fetches a limited number of vehicle positions."""
     channel = grpc.insecure_channel('localhost:50051')
     stub = transport_pb2_grpc.TransportServiceStub(channel)
 
     results = []
     try:
+        # StreamVehicles returns an iterator over Vehicle messages
         for i, vehicle in enumerate(stub.StreamVehicles(empty_pb2.Empty())):
-            print(f"Receiving from gRPC: {vehicle.vehicle_id}, {vehicle.lat}, {vehicle.lng}")
-            results.append((vehicle.vehicle_id, vehicle.lat, vehicle.lng))
+            # Note: use vehicle.id (not vehicle.vehicle_id) according to your proto definition
+            print(f"Receiving from gRPC: {vehicle.id}, {vehicle.lat}, {vehicle.lng}")
+            results.append((vehicle.id, vehicle.lat, vehicle.lng))
             if i >= limit - 1:
                 break
     except grpc.RpcError as e:
@@ -34,10 +35,10 @@ def main():
     env = StreamExecutionEnvironment.get_execution_environment()
     env.set_parallelism(1)
 
-    # Fetch a batch of live vehicle positions from gRPC
+    # Fetch vehicle positions from gRPC (simulate streaming by batch)
     vehicle_data = fetch_vehicle_positions(limit=5)
 
-    # Feed to Flink as a batch source (simulating stream)
+    # Feed fetched data into Flink from_collection source
     data_stream = env.from_collection(
         collection=vehicle_data,
         type_info=Types.TUPLE([Types.STRING(), Types.DOUBLE(), Types.DOUBLE()])

@@ -32,8 +32,7 @@ if _version_not_supported:
 
 
 class TransportServiceStub(object):
-    """Your service
-    """
+    """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
         """Constructor.
@@ -49,13 +48,12 @@ class TransportServiceStub(object):
         self.StreamVehicles = channel.unary_stream(
                 '/transport.TransportService/StreamVehicles',
                 request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-                response_deserializer=transport__pb2.VehiclePosition.FromString,
+                response_deserializer=transport__pb2.Vehicle.FromString,
                 _registered_method=True)
 
 
 class TransportServiceServicer(object):
-    """Your service
-    """
+    """Missing associated documentation comment in .proto file."""
 
     def GetRoute(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -80,7 +78,7 @@ def add_TransportServiceServicer_to_server(servicer, server):
             'StreamVehicles': grpc.unary_stream_rpc_method_handler(
                     servicer.StreamVehicles,
                     request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-                    response_serializer=transport__pb2.VehiclePosition.SerializeToString,
+                    response_serializer=transport__pb2.Vehicle.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -91,8 +89,7 @@ def add_TransportServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class TransportService(object):
-    """Your service
-    """
+    """Missing associated documentation comment in .proto file."""
 
     @staticmethod
     def GetRoute(request,
@@ -137,7 +134,7 @@ class TransportService(object):
             target,
             '/transport.TransportService/StreamVehicles',
             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-            transport__pb2.VehiclePosition.FromString,
+            transport__pb2.Vehicle.FromString,
             options,
             channel_credentials,
             insecure,

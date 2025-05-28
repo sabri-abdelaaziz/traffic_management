@@ -11,42 +11,50 @@ sys.path.insert(0, proto_dir)
 
 from concurrent import futures
 import grpc
-import time
-
 import transport_pb2
 import transport_pb2_grpc
+from routing import calculate_route
+from recommender import recommend_transport
+import time  # for streaming simulation
+from google.protobuf import empty_pb2
 
-class TransportService(transport_pb2_grpc.TransportServiceServicer):
+# Dummy vehicle data (in a real app, you'd fetch from DB or sensors)
+vehicles = [
+    {"id": "vehicle_1", "lat": 34.056, "lng": -118.236},
+    {"id": "vehicle_2", "lat": 35.000, "lng": -119.000},
+]
+
+class TransportServiceServicer(transport_pb2_grpc.TransportServiceServicer):
     def GetRoute(self, request, context):
-        # Your existing logic
+        start = (request.start_lat, request.start_lng)
+        end = (request.end_lat, request.end_lng)
+
+        path, distance = calculate_route(start, end)
+        transport_mode = recommend_transport(path)
+
         return transport_pb2.RouteResponse(
-            path=["34.056,-118.236", "35.000,-119.000"],
-            transport_mode="car",
-            distance=45.6
+            path=path,
+            transport_mode=transport_mode,
+            distance=distance
         )
 
     def StreamVehicles(self, request, context):
-        # Simulate streaming vehicle positions
-        vehicles = [
-            ("vehicle_1", 34.056, -118.236),
-            ("vehicle_2", 35.000, -119.000),
-             ("vehicle3", 35.000, -119.000)
-        ]
+        # Stream vehicles with a small delay to simulate real-time updates
         for v in vehicles:
-            yield transport_pb2.VehiclePosition(vehicle_id=v[0], lat=v[1], lng=v[2])
-            time.sleep(1)
+            yield transport_pb2.Vehicle(
+                id=v["id"],
+                lat=v["lat"],
+                lng=v["lng"]
+            )
+            time.sleep(1)  # optional: simulate delay
+
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    transport_pb2_grpc.add_TransportServiceServicer_to_server(TransportService(), server)
+    transport_pb2_grpc.add_TransportServiceServicer_to_server(TransportServiceServicer(), server)
     server.add_insecure_port('[::]:50051')
+    print("Serveur gRPC en cours d'exécution sur le port 50051...")
     server.start()
-    print("gRPC Server running on port 50051")
     server.wait_for_termination()
-    try:
-        while True:
-            time.sleep(86400)
-    except KeyboardInterrupt:
-        server.stop(0)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     serve()
