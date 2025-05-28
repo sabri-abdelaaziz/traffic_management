@@ -3,6 +3,7 @@
 import grpc
 import warnings
 
+from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 import transport_pb2 as transport__pb2
 
 GRPC_GENERATED_VERSION = '1.65.5'
@@ -31,7 +32,7 @@ if _version_not_supported:
 
 
 class TransportServiceStub(object):
-    """Service definition
+    """Your service
     """
 
     def __init__(self, channel):
@@ -41,17 +42,28 @@ class TransportServiceStub(object):
             channel: A grpc.Channel.
         """
         self.GetRoute = channel.unary_unary(
-                '/grpc_server.TransportService/GetRoute',
+                '/transport.TransportService/GetRoute',
                 request_serializer=transport__pb2.RouteRequest.SerializeToString,
                 response_deserializer=transport__pb2.RouteResponse.FromString,
+                _registered_method=True)
+        self.StreamVehicles = channel.unary_stream(
+                '/transport.TransportService/StreamVehicles',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=transport__pb2.VehiclePosition.FromString,
                 _registered_method=True)
 
 
 class TransportServiceServicer(object):
-    """Service definition
+    """Your service
     """
 
     def GetRoute(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def StreamVehicles(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -65,16 +77,21 @@ def add_TransportServiceServicer_to_server(servicer, server):
                     request_deserializer=transport__pb2.RouteRequest.FromString,
                     response_serializer=transport__pb2.RouteResponse.SerializeToString,
             ),
+            'StreamVehicles': grpc.unary_stream_rpc_method_handler(
+                    servicer.StreamVehicles,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=transport__pb2.VehiclePosition.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'grpc_server.TransportService', rpc_method_handlers)
+            'transport.TransportService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('grpc_server.TransportService', rpc_method_handlers)
+    server.add_registered_method_handlers('transport.TransportService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
 class TransportService(object):
-    """Service definition
+    """Your service
     """
 
     @staticmethod
@@ -91,9 +108,36 @@ class TransportService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/grpc_server.TransportService/GetRoute',
+            '/transport.TransportService/GetRoute',
             transport__pb2.RouteRequest.SerializeToString,
             transport__pb2.RouteResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def StreamVehicles(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/transport.TransportService/StreamVehicles',
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            transport__pb2.VehiclePosition.FromString,
             options,
             channel_credentials,
             insecure,

@@ -1,8 +1,17 @@
 syntax = "proto3";
 
-package grpc_server;
+package transport;
 
-// Request with start and end coordinates
+// ✅ Add this import for Empty
+import "google/protobuf/empty.proto";
+
+// Your service
+service TransportService {
+  rpc GetRoute (RouteRequest) returns (RouteResponse);
+  rpc StreamVehicles (google.protobuf.Empty) returns (stream VehiclePosition);
+}
+
+// Messages
 message RouteRequest {
   double start_lat = 1;
   double start_lng = 2;
@@ -10,14 +19,14 @@ message RouteRequest {
   double end_lng = 4;
 }
 
-// Response with a path (list of "lat,lng" strings), transport mode, and distance
 message RouteResponse {
   repeated string path = 1;
   string transport_mode = 2;
   double distance = 3;
 }
 
-// Service definition
-service TransportService {
-  rpc GetRoute(RouteRequest) returns (RouteResponse);
+message VehiclePosition {
+  string vehicle_id = 1;
+  double lat = 2;
+  double lng = 3;
 }
