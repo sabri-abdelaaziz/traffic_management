@@ -5,8 +5,10 @@ import warnings
 
 import transport_pb2 as transport__pb2
 
-GRPC_GENERATED_VERSION = '1.71.0'
+GRPC_GENERATED_VERSION = '1.65.5'
 GRPC_VERSION = grpc.__version__
+EXPECTED_ERROR_RELEASE = '1.66.0'
+SCHEDULED_RELEASE_DATE = 'August 6, 2024'
 _version_not_supported = False
 
 try:
@@ -16,17 +18,21 @@ except ImportError:
     _version_not_supported = True
 
 if _version_not_supported:
-    raise RuntimeError(
+    warnings.warn(
         f'The grpc package installed is at version {GRPC_VERSION},'
         + f' but the generated code in transport_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
+        + f' This warning will become an error in {EXPECTED_ERROR_RELEASE},'
+        + f' scheduled for release on {SCHEDULED_RELEASE_DATE}.',
+        RuntimeWarning
     )
 
 
 class TransportServiceStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """Service definition
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -35,14 +41,15 @@ class TransportServiceStub(object):
             channel: A grpc.Channel.
         """
         self.GetRoute = channel.unary_unary(
-                '/transport.TransportService/GetRoute',
+                '/grpc_server.TransportService/GetRoute',
                 request_serializer=transport__pb2.RouteRequest.SerializeToString,
                 response_deserializer=transport__pb2.RouteResponse.FromString,
                 _registered_method=True)
 
 
 class TransportServiceServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """Service definition
+    """
 
     def GetRoute(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -60,14 +67,15 @@ def add_TransportServiceServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'transport.TransportService', rpc_method_handlers)
+            'grpc_server.TransportService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('transport.TransportService', rpc_method_handlers)
+    server.add_registered_method_handlers('grpc_server.TransportService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
 class TransportService(object):
-    """Missing associated documentation comment in .proto file."""
+    """Service definition
+    """
 
     @staticmethod
     def GetRoute(request,
@@ -83,7 +91,7 @@ class TransportService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/transport.TransportService/GetRoute',
+            '/grpc_server.TransportService/GetRoute',
             transport__pb2.RouteRequest.SerializeToString,
             transport__pb2.RouteResponse.FromString,
             options,

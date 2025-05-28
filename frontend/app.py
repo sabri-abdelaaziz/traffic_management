@@ -1,5 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 import grpc
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'grpc_server')))
+
 import transport_pb2
 import transport_pb2_grpc
 

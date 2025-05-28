@@ -1,7 +1,8 @@
 syntax = "proto3";
 
-package transport;
+package grpc_server;
 
+// Request with start and end coordinates
 message RouteRequest {
   double start_lat = 1;
   double start_lng = 2;
@@ -9,12 +10,14 @@ message RouteRequest {
   double end_lng = 4;
 }
 
+// Response with a path (list of "lat,lng" strings), transport mode, and distance
 message RouteResponse {
-  repeated string path = 1;      // Liste des points "lat,lng"
-  string transport_mode = 2;      // ex: "bus", "tram", "taxi"
-  double distance = 3;            // Distance totale en mètres ou kilomètres
+  repeated string path = 1;
+  string transport_mode = 2;
+  double distance = 3;
 }
 
+// Service definition
 service TransportService {
-  rpc GetRoute (RouteRequest) returns (RouteResponse);
+  rpc GetRoute(RouteRequest) returns (RouteResponse);
 }
