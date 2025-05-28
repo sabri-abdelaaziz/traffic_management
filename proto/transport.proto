@@ -31,7 +31,7 @@ message RouteResponse {
 }
 
 message VehiclePosition {
-  string vehicle_id = 1;
+  string id = 1;
   double lat = 2;
   double lng = 3;
 }

@@ -15,7 +15,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0ftransport.proto\x12\ttransport\x1a\x1bgoogle/protobuf/empty.proto\"/\n\x07Vehicle\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0b\n\x03lat\x18\x02 \x01(\x01\x12\x0b\n\x03lng\x18\x03 \x01(\x01\"V\n\x0cRouteRequest\x12\x11\n\tstart_lat\x18\x01 \x01(\x01\x12\x11\n\tstart_lng\x18\x02 \x01(\x01\x12\x0f\n\x07\x65nd_lat\x18\x03 \x01(\x01\x12\x0f\n\x07\x65nd_lng\x18\x04 \x01(\x01\"G\n\rRouteResponse\x12\x0c\n\x04path\x18\x01 \x03(\t\x12\x16\n\x0etransport_mode\x18\x02 \x01(\t\x12\x10\n\x08\x64istance\x18\x03 \x01(\x01\"?\n\x0fVehiclePosition\x12\x12\n\nvehicle_id\x18\x01 \x01(\t\x12\x0b\n\x03lat\x18\x02 \x01(\x01\x12\x0b\n\x03lng\x18\x03 \x01(\x01\x32\x91\x01\n\x10TransportService\x12=\n\x08GetRoute\x12\x17.transport.RouteRequest\x1a\x18.transport.RouteResponse\x12>\n\x0eStreamVehicles\x12\x16.google.protobuf.Empty\x1a\x12.transport.Vehicle0\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0ftransport.proto\x12\ttransport\x1a\x1bgoogle/protobuf/empty.proto\"/\n\x07Vehicle\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0b\n\x03lat\x18\x02 \x01(\x01\x12\x0b\n\x03lng\x18\x03 \x01(\x01\"V\n\x0cRouteRequest\x12\x11\n\tstart_lat\x18\x01 \x01(\x01\x12\x11\n\tstart_lng\x18\x02 \x01(\x01\x12\x0f\n\x07\x65nd_lat\x18\x03 \x01(\x01\x12\x0f\n\x07\x65nd_lng\x18\x04 \x01(\x01\"G\n\rRouteResponse\x12\x0c\n\x04path\x18\x01 \x03(\t\x12\x16\n\x0etransport_mode\x18\x02 \x01(\t\x12\x10\n\x08\x64istance\x18\x03 \x01(\x01\"7\n\x0fVehiclePosition\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0b\n\x03lat\x18\x02 \x01(\x01\x12\x0b\n\x03lng\x18\x03 \x01(\x01\x32\x91\x01\n\x10TransportService\x12=\n\x08GetRoute\x12\x17.transport.RouteRequest\x1a\x18.transport.RouteResponse\x12>\n\x0eStreamVehicles\x12\x16.google.protobuf.Empty\x1a\x12.transport.Vehicle0\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -29,7 +29,7 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_ROUTERESPONSE']._serialized_start=196
   _globals['_ROUTERESPONSE']._serialized_end=267
   _globals['_VEHICLEPOSITION']._serialized_start=269
-  _globals['_VEHICLEPOSITION']._serialized_end=332
-  _globals['_TRANSPORTSERVICE']._serialized_start=335
-  _globals['_TRANSPORTSERVICE']._serialized_end=480
+  _globals['_VEHICLEPOSITION']._serialized_end=324
+  _globals['_TRANSPORTSERVICE']._serialized_start=327
+  _globals['_TRANSPORTSERVICE']._serialized_end=472
 # @@protoc_insertion_point(module_scope)

@@ -13,15 +13,13 @@ import transport_pb2_grpc
 
 
 def fetch_vehicle_positions(limit=10):
-    """Connects to gRPC server and fetches a limited number of vehicle positions."""
     channel = grpc.insecure_channel('localhost:50051')
     stub = transport_pb2_grpc.TransportServiceStub(channel)
 
     results = []
     try:
-        # StreamVehicles returns an iterator over Vehicle messages
         for i, vehicle in enumerate(stub.StreamVehicles(empty_pb2.Empty())):
-            # Note: use vehicle.id (not vehicle.vehicle_id) according to your proto definition
+            # Correct field name: 'id'
             print(f"Receiving from gRPC: {vehicle.id}, {vehicle.lat}, {vehicle.lng}")
             results.append((vehicle.id, vehicle.lat, vehicle.lng))
             if i >= limit - 1:
@@ -35,10 +33,8 @@ def main():
     env = StreamExecutionEnvironment.get_execution_environment()
     env.set_parallelism(1)
 
-    # Fetch vehicle positions from gRPC (simulate streaming by batch)
     vehicle_data = fetch_vehicle_positions(limit=5)
 
-    # Feed fetched data into Flink from_collection source
     data_stream = env.from_collection(
         collection=vehicle_data,
         type_info=Types.TUPLE([Types.STRING(), Types.DOUBLE(), Types.DOUBLE()])
