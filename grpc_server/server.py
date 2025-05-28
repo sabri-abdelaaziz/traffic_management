@@ -29,7 +29,8 @@ class TransportService(transport_pb2_grpc.TransportServiceServicer):
         # Simulate streaming vehicle positions
         vehicles = [
             ("vehicle_1", 34.056, -118.236),
-            ("vehicle_2", 35.000, -119.000)
+            ("vehicle_2", 35.000, -119.000),
+             ("vehicle3", 35.000, -119.000)
         ]
         for v in vehicles:
             yield transport_pb2.VehiclePosition(vehicle_id=v[0], lat=v[1], lng=v[2])
