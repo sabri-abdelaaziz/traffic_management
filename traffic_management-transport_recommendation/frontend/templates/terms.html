@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Conditions d'utilisation - Transport Recommendation</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .floating-icons {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .floating-icon {
+            position: absolute;
+            color: rgba(66, 153, 225, 0.2);
+            font-size: 24px;
+        }
+
+        .floating-icon:nth-child(1) { left: 10%; animation: floatAnimation 6s ease-in-out infinite; }
+        .floating-icon:nth-child(2) { left: 20%; animation: floatAnimation 8s ease-in-out infinite 1s; }
+        .floating-icon:nth-child(3) { right: 20%; animation: floatAnimation 7s ease-in-out infinite 2s; }
+        .floating-icon:nth-child(4) { right: 10%; animation: floatAnimation 9s ease-in-out infinite 1.5s; }
+
+        @keyframes floatAnimation {
+            0% { top: 100%; transform: translateY(0) rotate(0deg); opacity: 0; }
+            25% { opacity: 0.3; }
+            50% { transform: translateY(-50vh) rotate(180deg); opacity: 0.3; }
+            75% { opacity: 0.3; }
+            100% { top: -50px; transform: translateY(-100%) rotate(360deg); opacity: 0; }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .header-content h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(45, 55, 72, 0.3);
+            border-radius: 16px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .terms-section {
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: rgba(45, 55, 72, 0.3);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .terms-section h2 {
+            color: #4299e1;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .terms-section p {
+            color: #e2e8f0;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .terms-section ul {
+            list-style-type: none;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .terms-section ul li {
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .terms-section ul li::before {
+            content: '→';
+            position: absolute;
+            left: -1.5rem;
+            color: #4299e1;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #4299e1;
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-button:hover {
+            background: #3182ce;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .terms-section {
+                padding: 1rem;
+            }
+
+            .header-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="floating-icons">
+            <i class="floating-icon fas fa-book"></i>
+            <i class="floating-icon fas fa-shield-alt"></i>
+            <i class="floating-icon fas fa-balance-scale"></i>
+            <i class="floating-icon fas fa-gavel"></i>
+        </div>
+        <div class="header-content">
+            <h1>Conditions d'utilisation</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Retour à l'accueil
+        </a>
+
+        <div class="nav-links" style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+            <a href="/privacy" style="color: #4299e1; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-user-shield"></i>
+                Politique de confidentialité
+            </a>
+            <a href="/faq" style="color: #4299e1; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-question-circle"></i>
+                FAQ
+            </a>
+            <a href="/support" style="color: #4299e1; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-headset"></i>
+                Support
+            </a>
+        </div>
+
+        <div class="terms-section">
+            <h2>1. Acceptation des conditions</h2>
+            <p>En accédant et en utilisant Transport Recommendation, vous acceptez d'être lié par ces conditions d'utilisation, toutes les lois et réglementations applicables, et acceptez que vous êtes responsable du respect des lois locales applicables.</p>
+        </div>
+
+        <div class="terms-section">
+            <h2>2. Utilisation de la licence</h2>
+            <p>La permission est accordée d'utiliser temporairement Transport Recommendation pour un usage personnel et non commercial. Cette licence ne doit pas être:</p>
+            <ul>
+                <li>Modifiée ou copiée</li>
+                <li>Utilisée à des fins commerciales</li>
+                <li>Reproduite, dupliquée ou copiée</li>
+                <li>Redistribuée</li>
+            </ul>
+        </div>
+
+        <div class="terms-section">
+            <h2>3. Clause de non-responsabilité</h2>
+            <p>Les informations fournies par Transport Recommendation sont à titre indicatif uniquement. L'application ne garantit pas:</p>
+            <ul>
+                <li>L'exactitude des temps de trajet</li>
+                <li>La disponibilité des services d'urgence</li>
+                <li>La précision des informations sur les hôpitaux</li>
+                <li>La fiabilité des recommandations de transport</li>
+            </ul>
+        </div>
+
+        <div class="terms-section">
+            <h2>4. Limitations</h2>
+            <p>Transport Recommendation ou ses fournisseurs ne seront en aucun cas responsables des dommages spéciaux, directs, indirects ou consécutifs résultant de l'utilisation ou de l'impossibilité d'utiliser l'application.</p>
+        </div>
+
+        <div class="terms-section">
+            <h2>5. Révisions et errata</h2>
+            <p>Les informations fournies peuvent contenir des erreurs techniques ou typographiques. Transport Recommendation se réserve le droit de:</p>
+            <ul>
+                <li>Modifier le contenu à tout moment</li>
+                <li>Améliorer ou modifier l'application sans préavis</li>
+                <li>Suspendre ou arrêter tout aspect de l'application</li>
+            </ul>
+        </div>
+
+        <div class="terms-section">
+            <h2>6. Liens</h2>
+            <p>Transport Recommendation n'a pas examiné tous les sites liés à son application et n'est pas responsable du contenu de ces sites. L'inclusion de tout lien n'implique pas l'approbation par Transport Recommendation.</p>
+        </div>
+
+        <div class="terms-section">
+            <h2>7. Modifications des conditions</h2>
+            <p>Transport Recommendation se réserve le droit de modifier ces conditions d'utilisation à tout moment. En continuant à utiliser l'application après ces modifications, vous acceptez les nouvelles conditions.</p>
+        </div>
+    </div>
+</body>
+</html> 

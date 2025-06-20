@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package transport;
+
+message RouteRequest {
+  double start_lat = 1;
+  double start_lng = 2;
+  double end_lat = 3;
+  double end_lng = 4;
+}
+
+message RouteResponse {
+  repeated string path = 1;      // Liste des points "lat,lng"
+  string transport_mode = 2;      // ex: "bus", "tram", "taxi"
+  double distance = 3;            // Distance totale en mètres ou kilomètres
+}
+
+service TransportService {
+  rpc GetRoute (RouteRequest) returns (RouteResponse);
+}

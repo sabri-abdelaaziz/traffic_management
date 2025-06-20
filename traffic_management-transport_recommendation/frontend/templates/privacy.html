@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Politique de confidentialité - Transport Recommendation</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .floating-icons {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .floating-icon {
+            position: absolute;
+            color: rgba(66, 153, 225, 0.2);
+            font-size: 24px;
+        }
+
+        .floating-icon:nth-child(1) { left: 10%; animation: floatAnimation 6s ease-in-out infinite; }
+        .floating-icon:nth-child(2) { left: 20%; animation: floatAnimation 8s ease-in-out infinite 1s; }
+        .floating-icon:nth-child(3) { right: 20%; animation: floatAnimation 7s ease-in-out infinite 2s; }
+        .floating-icon:nth-child(4) { right: 10%; animation: floatAnimation 9s ease-in-out infinite 1.5s; }
+
+        @keyframes floatAnimation {
+            0% { top: 100%; transform: translateY(0) rotate(0deg); opacity: 0; }
+            25% { opacity: 0.3; }
+            50% { transform: translateY(-50vh) rotate(180deg); opacity: 0.3; }
+            75% { opacity: 0.3; }
+            100% { top: -50px; transform: translateY(-100%) rotate(360deg); opacity: 0; }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .header-content h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(45, 55, 72, 0.3);
+            border-radius: 16px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .privacy-section {
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: rgba(45, 55, 72, 0.3);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .privacy-section h2 {
+            color: #4299e1;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .privacy-section p {
+            color: #e2e8f0;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .privacy-section ul {
+            list-style-type: none;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .privacy-section ul li {
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .privacy-section ul li::before {
+            content: '→';
+            position: absolute;
+            left: -1.5rem;
+            color: #4299e1;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #4299e1;
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-button:hover {
+            background: #3182ce;
+            transform: translateY(-2px);
+        }
+
+        .highlight-box {
+            background: rgba(66, 153, 225, 0.1);
+            border-left: 4px solid #4299e1;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .privacy-section {
+                padding: 1rem;
+            }
+
+            .header-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="floating-icons">
+            <i class="floating-icon fas fa-user-shield"></i>
+            <i class="floating-icon fas fa-lock"></i>
+            <i class="floating-icon fas fa-fingerprint"></i>
+            <i class="floating-icon fas fa-key"></i>
+        </div>
+        <div class="header-content">
+            <h1>Politique de confidentialité</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Retour à l'accueil
+        </a>
+
+        <div class="nav-links" style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+            <a href="/terms" style="color: #4299e1; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-book"></i>
+                Conditions d'utilisation
+            </a>
+            <a href="/faq" style="color: #4299e1; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-question-circle"></i>
+                FAQ
+            </a>
+            <a href="/support" style="color: #4299e1; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-headset"></i>
+                Support
+            </a>
+        </div>
+
+        <div class="privacy-section">
+            <h2>1. Collecte des informations</h2>
+            <p>Nous collectons les informations suivantes lorsque vous utilisez notre application :</p>
+            <ul>
+                <li>Données de localisation</li>
+                <li>Informations de trajet</li>
+                <li>Préférences de transport</li>
+                <li>Commentaires et évaluations</li>
+            </ul>
+            <div class="highlight-box">
+                <p>Votre vie privée est notre priorité. Toutes les données sont collectées avec votre consentement explicite.</p>
+            </div>
+        </div>
+
+        <div class="privacy-section">
+            <h2>2. Utilisation des informations</h2>
+            <p>Nous utilisons ces informations pour :</p>
+            <ul>
+                <li>Fournir des recommandations de transport personnalisées</li>
+                <li>Améliorer nos services et fonctionnalités</li>
+                <li>Assurer la sécurité de nos utilisateurs</li>
+                <li>Communiquer des mises à jour importantes</li>
+            </ul>
+        </div>
+
+        <div class="privacy-section">
+            <h2>3. Protection des données</h2>
+            <p>Nous mettons en œuvre des mesures de sécurité pour protéger vos informations :</p>
+            <ul>
+                <li>Chiffrement des données sensibles</li>
+                <li>Protocoles de sécurité avancés</li>
+                <li>Accès restreint aux données personnelles</li>
+                <li>Audits de sécurité réguliers</li>
+            </ul>
+        </div>
+
+        <div class="privacy-section">
+            <h2>4. Partage des données</h2>
+            <p>Nous ne partageons vos informations qu'avec :</p>
+            <ul>
+                <li>Les services d'urgence en cas de besoin</li>
+                <li>Les prestataires de services de transport partenaires</li>
+                <li>Les autorités compétentes sur demande légale</li>
+            </ul>
+            <div class="highlight-box">
+                <p>Nous ne vendons jamais vos données personnelles à des tiers.</p>
+            </div>
+        </div>
+
+        <div class="privacy-section">
+            <h2>5. Vos droits</h2>
+            <p>Vous disposez des droits suivants concernant vos données :</p>
+            <ul>
+                <li>Accès à vos données personnelles</li>
+                <li>Rectification des informations inexactes</li>
+                <li>Suppression de vos données</li>
+                <li>Opposition au traitement des données</li>
+                <li>Portabilité des données</li>
+            </ul>
+        </div>
+
+        <div class="privacy-section">
+            <h2>6. Cookies et technologies similaires</h2>
+            <p>Nous utilisons des cookies pour :</p>
+            <ul>
+                <li>Améliorer la navigation</li>
+                <li>Mémoriser vos préférences</li>
+                <li>Analyser l'utilisation de l'application</li>
+                <li>Personnaliser votre expérience</li>
+            </ul>
+        </div>
+
+        <div class="privacy-section">
+            <h2>7. Contact</h2>
+            <p>Pour toute question concernant notre politique de confidentialité :</p>
+            <div class="highlight-box">
+                <p><i class="fas fa-envelope"></i> privacy@transport-recommendation.com</p>
+                <p><i class="fas fa-phone"></i> +212 522-XX-XX-XX</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

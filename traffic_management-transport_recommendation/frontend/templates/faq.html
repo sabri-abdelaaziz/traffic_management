@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>FAQ - Transport Recommendation</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .floating-icons {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .floating-icon {
+            position: absolute;
+            color: rgba(66, 153, 225, 0.2);
+            font-size: 24px;
+        }
+
+        .floating-icon:nth-child(1) { left: 10%; animation: floatAnimation 6s ease-in-out infinite; }
+        .floating-icon:nth-child(2) { left: 20%; animation: floatAnimation 8s ease-in-out infinite 1s; }
+        .floating-icon:nth-child(3) { right: 20%; animation: floatAnimation 7s ease-in-out infinite 2s; }
+        .floating-icon:nth-child(4) { right: 10%; animation: floatAnimation 9s ease-in-out infinite 1.5s; }
+
+        @keyframes floatAnimation {
+            0% { top: 100%; transform: translateY(0) rotate(0deg); opacity: 0; }
+            25% { opacity: 0.3; }
+            50% { transform: translateY(-50vh) rotate(180deg); opacity: 0.3; }
+            75% { opacity: 0.3; }
+            100% { top: -50px; transform: translateY(-100%) rotate(360deg); opacity: 0; }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .header-content h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(45, 55, 72, 0.3);
+            border-radius: 16px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #4299e1;
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-button:hover {
+            background: #3182ce;
+            transform: translateY(-2px);
+        }
+
+        .faq-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-button {
+            background: rgba(66, 153, 225, 0.1);
+            border: 1px solid rgba(66, 153, 225, 0.2);
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-button:hover,
+        .category-button.active {
+            background: rgba(66, 153, 225, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .category-button i {
+            color: #4299e1;
+            font-size: 1.2rem;
+        }
+
+        .faq-item {
+            background: rgba(45, 55, 72, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(66, 153, 225, 0.1);
+        }
+
+        .faq-question h3 {
+            color: #e2e8f0;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .faq-toggle {
+            color: #4299e1;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: rgba(45, 55, 72, 0.2);
+        }
+
+        .faq-answer p {
+            color: #cbd5e0;
+            line-height: 1.6;
+            padding: 1.5rem 0;
+        }
+
+        .faq-item.active .faq-question {
+            background: rgba(66, 153, 225, 0.1);
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .search-box {
+            background: rgba(45, 55, 72, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #e2e8f0;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: #718096;
+        }
+
+        .search-box i {
+            color: #4299e1;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .header-content h1 {
+                font-size: 2rem;
+            }
+
+            .faq-categories {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="floating-icons">
+            <i class="floating-icon fas fa-question-circle"></i>
+            <i class="floating-icon fas fa-info-circle"></i>
+            <i class="floating-icon fas fa-comments"></i>
+            <i class="floating-icon fas fa-lightbulb"></i>
+        </div>
+        <div class="header-content">
+            <h1>Questions Fréquentes</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Retour à l'accueil
+        </a>
+
+        <div class="nav-links" style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+            <a href="/terms" style="color: #4299e1; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-book"></i>
+                Conditions d'utilisation
+            </a>
+            <a href="/privacy" style="color: #4299e1; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-user-shield"></i>
+                Politique de confidentialité
+            </a>
+            <a href="/support" style="color: #4299e1; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-headset"></i>
+                Support
+            </a>
+        </div>
+
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Rechercher une question..." id="faq-search">
+        </div>
+
+        <div class="faq-categories">
+            <button class="category-button active">
+                <i class="fas fa-map-marked-alt"></i>
+                Utilisation générale
+            </button>
+            <button class="category-button">
+                <i class="fas fa-ambulance"></i>
+                Services d'urgence
+            </button>
+            <button class="category-button">
+                <i class="fas fa-route"></i>
+                Transport
+            </button>
+            <button class="category-button">
+                <i class="fas fa-cog"></i>
+                Paramètres
+            </button>
+        </div>
+
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Comment utiliser la fonction de géolocalisation ?</h3>
+                    <i class="fas fa-chevron-down faq-toggle"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Pour utiliser la géolocalisation, cochez simplement la case "Utiliser ma position actuelle" dans la barre de recherche. L'application vous demandera alors l'autorisation d'accéder à votre position. Une fois accordée, votre position sera automatiquement utilisée comme point de départ.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Comment trouver l'hôpital le plus proche ?</h3>
+                    <i class="fas fa-chevron-down faq-toggle"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Cliquez sur le bouton "Urgence - Hôpitaux" dans la barre d'outils. L'application recherchera automatiquement les hôpitaux dans un rayon de 5 km autour de votre position actuelle. Chaque hôpital sera affiché sur la carte avec des informations détaillées et des options pour obtenir un itinéraire ou appeler les services d'urgence.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Comment sont calculés les coûts de transport ?</h3>
+                    <i class="fas fa-chevron-down faq-toggle"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Les coûts sont calculés en fonction de plusieurs facteurs : la distance du trajet, le mode de transport choisi, les tarifs de base et les frais additionnels (péages, etc.). Pour les taxis, nous utilisons un tarif de base plus un coût par kilomètre. Pour les transports en commun, nous utilisons les tarifs officiels des tickets. Ces estimations sont régulièrement mises à jour pour refléter les prix du marché.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>L'application fonctionne-t-elle hors connexion ?</h3>
+                    <i class="fas fa-chevron-down faq-toggle"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>L'application nécessite une connexion Internet pour fonctionner correctement, car elle doit accéder aux données en temps réel des services de transport et des cartes. Cependant, certaines informations de base comme les numéros d'urgence restent accessibles même hors connexion.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Comment puis-je donner mon avis sur un trajet ?</h3>
+                    <i class="fas fa-chevron-down faq-toggle"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Après avoir effectué un trajet, vous pouvez utiliser la section "Feedback" en bas de page. Attribuez une note de 1 à 5 étoiles et laissez un commentaire sur votre expérience. Vos retours nous aident à améliorer continuellement nos services et recommandations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // FAQ Item Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // Close all other items
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                });
+                
+                // Toggle current item
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Category Buttons
+        document.querySelectorAll('.category-button').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.category-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+            });
+        });
+
+        // Search Functionality
+        const searchInput = document.getElementById('faq-search');
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question h3').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer p').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
